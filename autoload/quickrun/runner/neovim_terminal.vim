@@ -13,6 +13,7 @@ let s:runner = {
 \   'config': {
 \     'opener': 'vnew',
 \     'into': 0,
+\     'buffername': '',
 \   },
 \ }
 
@@ -48,6 +49,9 @@ function! s:runner.run(commands, input, session) abort
   execute self.config.opener
   let self._jobid = termopen(cmd_arg, options)
   let self._bufnr = bufnr('')
+  if strlen(self.config.buffername) != 0
+    execute "file " . self.config.buffername
+  endif
   if !self.config.into
     call s:VT.jump(prev_window)
   endif
